@@ -34,12 +34,27 @@ prompt_pure_human_time() {
 # fastest possible way to check if repo is dirty
 prompt_pure_git_dirty() {
 	# check if we're in a git repo
-	command git rev-parse --is-inside-work-tree &>/dev/null || return
+	git rev-parse --is-inside-work-tree &>/dev/null || return
 	# check if it's dirty
 	[[ "$PURE_GIT_UNTRACKED_DIRTY" == 0 ]] && local umode="-uno" || local umode="-unormal"
-  command test -z "$(git status --porcelain)"
 
-	(($? != 0)) && echo '*'
+  if [ -z "$(git status --porcelain)" ]; then
+    # green. because %F{green} wouldn't work
+    echo -en '\033[0;32m';
+  else
+    # yellow. because %F{yellow} wouldn't work
+    echo -en '\033[0;33m';
+  fi
+}
+
+prompt_pure_git_branch() {
+  # grab the current branch and put parentheses around it
+  local branch=$(git branch 2> /dev/null | grep -e "^*" | cut -c 3-)
+
+  # if there's a branch, wrap it in the correct color and print it
+  if [ -n "$branch" ]; then
+    echo -n "($branch)"
+  fi
 }
 
 # displays the exec time of the last command if set threshold was exceeded
@@ -68,9 +83,6 @@ prompt_pure_precmd() {
 	# shows the full path in the title
 	print -Pn '\e]0;%~\a'
 
-	# git info
-	vcs_info
-
   # default colors
   if [ -z "$PROMPT_PURE_DIR_COLOR" ]; then
     PROMPT_PURE_DIR_COLOR="%F{blue}"
@@ -78,11 +90,11 @@ prompt_pure_precmd() {
   if [ -z "$PROMPT_PURE_VCS_COLOR" ]; then
     PROMPT_PURE_VCS_COLOR="%F{242}"
   fi
-  if [ -z "$prompt_pure_exec_time_color" ]; then
+  if [ -z "$PROMPT_PURE_EXEC_TIME_COLOR" ]; then
     PROMPT_PURE_EXEC_TIME_COLOR="%F{yellow}"
   fi
 
-	local prompt_pure_preprompt="\n$PROMPT_PURE_DIR_COLOR%~$PROMPT_PURE_VCS_COLOR$vcs_info_msg_0_`prompt_pure_git_dirty` $prompt_pure_username%f $PROMPT_PURE_EXEC_TIME_COLOR`prompt_pure_cmd_exec_time`%f"
+  local prompt_pure_preprompt="\n$PROMPT_PURE_DIR_COLOR%~ $(prompt_pure_git_dirty)$(prompt_pure_git_branch)%f $prompt_pure_username%f $PROMPT_PURE_EXEC_TIME_COLOR`prompt_pure_cmd_exec_time`%f"
 	print -P $prompt_pure_preprompt
 
 	# check async if there is anything to pull
