@@ -53,7 +53,7 @@ prompt_pure_git_branch() {
 
   # if there's a branch, wrap it in the correct color and print it
   if [ -n "$branch" ]; then
-    echo -n "($branch)"
+    echo -en "($branch)"'\033[0m'
   fi
 }
 
