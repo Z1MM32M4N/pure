@@ -38,7 +38,7 @@ prompt_pure_git_dirty() {
 	# check if it's dirty
 	[[ "$PURE_GIT_UNTRACKED_DIRTY" == 0 ]] && local umode="-uno" || local umode="-unormal"
 
-  if [ -z "$(git status --porcelain)" ]; then
+  if [ -z "$(git status --porcelain 2> /dev/null)" ]; then
     # green. because %F{green} wouldn't work
     echo -en '\033[0;32m';
   else
@@ -49,7 +49,7 @@ prompt_pure_git_dirty() {
 
 prompt_pure_git_branch() {
   # grab the current branch and put parentheses around it
-  local branch=$(git branch 2> /dev/null | grep -e "^*" | cut -c 3-)
+  local branch="$(git branch 2> /dev/null | grep -e "^*" | cut -c 3-)"
 
   # if there's a branch, wrap it in the correct color and print it
   if [ -n "$branch" ]; then
