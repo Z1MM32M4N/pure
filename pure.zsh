@@ -5,7 +5,6 @@
 
 # For my own and others sanity
 # git:
-# %b => current branch
 # %a => current action (rebase/merge)
 # prompt:
 # %F => color dict
@@ -94,7 +93,7 @@ prompt_pure_precmd() {
     PROMPT_PURE_EXEC_TIME_COLOR="%F{yellow}"
   fi
 
-  local prompt_pure_preprompt="\n$PROMPT_PURE_DIR_COLOR%~ $(prompt_pure_git_dirty)$(prompt_pure_git_branch)%f $prompt_pure_username%f $PROMPT_PURE_EXEC_TIME_COLOR`prompt_pure_cmd_exec_time`%f"
+  local prompt_pure_preprompt="\n$PROMPT_PURE_DIR_COLOR%~%f%b $(prompt_pure_git_dirty)$(prompt_pure_git_branch)%f%b $prompt_pure_username%f%b $PROMPT_PURE_EXEC_TIME_COLOR`prompt_pure_cmd_exec_time`%f%b"
 	print -P $prompt_pure_preprompt
 
 	# check async if there is anything to pull
@@ -132,8 +131,6 @@ prompt_pure_setup() {
 	add-zsh-hook preexec prompt_pure_preexec
 
 	zstyle ':vcs_info:*' enable git
-	zstyle ':vcs_info:git*' formats ' %b'
-	zstyle ':vcs_info:git*' actionformats ' %b|%a'
 
 	# show username@host if logged in through SSH
 	[[ -n "$SSH_CONNECTION" && -z "$PURE_NO_SSH_USER" ]] && prompt_pure_username='%n@%m '
@@ -148,7 +145,7 @@ prompt_pure_setup() {
   fi
 
 	# prompt turns red if the previous command didn't exit with 0
-	PROMPT="%(?.$PROMPT_PURE_SUCCESS_COLOR.$PROMPT_PURE_FAILURE_COLOR)❯%f "
+  PROMPT="%(?.$PROMPT_PURE_SUCCESS_COLOR.$PROMPT_PURE_FAILURE_COLOR)❯%f%b "
 }
 
 prompt_pure_setup "$@"
