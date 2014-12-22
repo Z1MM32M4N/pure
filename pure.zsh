@@ -93,7 +93,7 @@ prompt_pure_precmd() {
     PROMPT_PURE_EXEC_TIME_COLOR="%F{yellow}"
   fi
 
-  local prompt_pure_preprompt="\n$PROMPT_PURE_DIR_COLOR%~%f%b $(prompt_pure_git_dirty)$(prompt_pure_git_branch)%f%b $prompt_pure_username%f%b $PROMPT_PURE_EXEC_TIME_COLOR`prompt_pure_cmd_exec_time`%f%b"
+  local prompt_pure_preprompt="\n$PROMPT_PURE_DIR_COLOR%~%f%b $(prompt_pure_git_dirty)$(prompt_pure_git_branch)%f%b $PROMPT_PURE_USERNAME_COLOR$prompt_pure_username%f%b $PROMPT_PURE_EXEC_TIME_COLOR`prompt_pure_cmd_exec_time`%f%b"
 	print -P $prompt_pure_preprompt
 
 	# check async if there is anything to pull
