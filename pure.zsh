@@ -38,7 +38,7 @@ prompt_pure_git_dirty() {
 	[[ "$PURE_GIT_UNTRACKED_DIRTY" == 0 ]] && local umode="-uno" || local umode="-unormal"
 
   #if [ -z "$(git status --porcelain 2> /dev/null)" ]; then
-  if git diff --quiet $PROMPT_PURE_NO_SUBMODULES HEAD && git ls-files -o -d --exclude-standard | sed q1; then
+  if git diff --quiet $PROMPT_PURE_NO_SUBMODULES HEAD && return $(git ls-files -o -d --exclude-standard | sed q | wc -l); then
     # green. because %F{green} wouldn't work
     echo -en '\033[0;32m';
   else
