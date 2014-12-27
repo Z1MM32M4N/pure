@@ -30,6 +30,11 @@ prompt_pure_human_time() {
 	echo "${seconds}s"
 }
 
+# check if untracked files
+prompt_pure_any_untracked() {
+  return $(git ls-files -o -d --exclude-standard | sed q | wc -l)
+}
+
 # fastest possible way to check if repo is dirty
 prompt_pure_git_dirty() {
 	# check if we're in a git repo
@@ -38,7 +43,7 @@ prompt_pure_git_dirty() {
 	[[ "$PURE_GIT_UNTRACKED_DIRTY" == 0 ]] && local umode="-uno" || local umode="-unormal"
 
   #if [ -z "$(git status --porcelain 2> /dev/null)" ]; then
-  if git diff --quiet $PROMPT_PURE_NO_SUBMODULES HEAD && return $(git ls-files -o -d --exclude-standard | sed q | wc -l); then
+  if git diff --quiet $PROMPT_PURE_NO_SUBMODULES HEAD && prompt_pure_any_untracked; then
     # green. because %F{green} wouldn't work
     echo -en '\033[0;32m';
   else
