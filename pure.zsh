@@ -39,17 +39,17 @@ prompt_pure_any_untracked() {
 prompt_pure_git_dirty() {
 	# check if we're in a git repo
 	git rev-parse --is-inside-work-tree &>/dev/null || return
-	# check if it's dirty
-	[[ "$PURE_GIT_UNTRACKED_DIRTY" == 0 ]] && local umode="-uno" || local umode="-unormal"
 
-  #if [ -z "$(git status --porcelain 2> /dev/null)" ]; then
-  if git diff --quiet $PROMPT_PURE_NO_SUBMODULES HEAD 2> /dev/null && prompt_pure_any_untracked; then
-    # green. because %F{green} wouldn't work
-    echo -en '\033[0;32m';
-  else
-    # yellow. because %F{yellow} wouldn't work
-    echo -en '\033[0;33m';
-  fi
+	if [ -n "$PROMPT_PURE_SKIP_DIRTY_CHECK" ] || {
+	git diff --quiet $PROMPT_PURE_NO_SUBMODULES HEAD 2> /dev/null && \
+		prompt_pure_any_untracked
+	}; then
+		# green. because %F{green} wouldn't work
+		echo -en '\033[0;32m';
+	else
+		# yellow. because %F{yellow} wouldn't work
+		echo -en '\033[0;33m';
+	fi
 }
 
 prompt_pure_git_branch() {

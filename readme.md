@@ -41,7 +41,7 @@ That's it. Skip to [Getting started](#getting-started).
   - add it as a submodule, or
   - just download `pure.zsh`
 
-2. Symlink `pure.zsh` to somewhere in [`$fpath`](http://www.refining-linux.org/archives/46/ZSH-Gem-12-Autoloading-functions/) with the name `prompt_pure_setup`.
+2. Symlink `pure.zsh` to somewhere in [`$fpath`]http://www.refining-linux.org/archives/46/ZSH-Gem-12-Autoloading-functions/) with the name `prompt_pure_setup`.
 
 #### Example
 
@@ -88,6 +88,10 @@ Set `PURE_GIT_PULL=0` to prevent Pure from checking whether the current Git remo
 ### `PURE_GIT_UNTRACKED_DIRTY`
 
 Set `PURE_GIT_UNTRACKED_DIRTY=0` to not include untracked files in dirtiness check. Only really useful on extremely huge repos like the WebKit repo.
+
+### `PROMPT_PURE_SKIP_DIRTY_CHECK`
+
+Set `PROMPT_PURE_SKIP_DIRTY_CHECK` to skip the dirtyness check altogether.
 
 ### `PROMPT_PURE_DIR_COLOR`, `PROMPT_PURE_VCS_COLOR`, `PROMPT_PURE_EXEC_TIME_COLOR`, `PROMPT_PURE_SUCCESS_COLOR`,  and `PROMPT_PURE_FAILURE_COLOR`
 
