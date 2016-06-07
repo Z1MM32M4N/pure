@@ -4,6 +4,7 @@
 
 ![screenshot](screenshot.png)
 
+Originally by @sindresorhus, with modifications from @jez.
 
 ## Overview
 
@@ -13,9 +14,8 @@ Most prompts are cluttered, ugly and slow. I wanted something visually pleasing 
 
 - Comes with the perfect prompt character.  
   Author went through the whole Unicode range to find it.
-- Shows `git` branch and whether it's dirty (with a `*`).
-- Indicates when you have unpushed/unpulled `git` commits with up/down arrows.
-- Prompt character turns red if the last command didn't exit with `0`.
+- Shows `git` branch and whether it's dirty (using color).
+- Prompt character turns a custom color if the last command didn't exit with `0`.
 - Command execution time will be displayed if it exceeds the set threshold.
 - Username and host only displayed when in an SSH session.
 - Shows the current path in the title and the [current folder & command](screenshot-title-cmd.png) when a process is running.
@@ -24,54 +24,52 @@ Most prompts are cluttered, ugly and slow. I wanted something visually pleasing 
 
 ## Install
 
-Can be installed with `npm` or manually.
+Can be instaled through Git.
 
-### npm
+1. Clone this repo to your [`$fpath`][1]. Don't know what an `$fpath` is, or don't think you've set it up? Skip to [Setting up your fpath](#setting-up-your-fpath).
 
-```sh
-$ npm install --global pure-prompt
+   ```
+   git clone https://github.com/jez/pure <anywhere>
+   ```
+   
+   For a personal recommendation, I have `~/.zfunctions` in my fpath, and I just cloned it there for convenience:
+   
+   ```
+   git clone https://github.com/jez/pure ~/.zfunctions/pure
+   ```
+   
+2. Symlink `pure.zsh` in that repo to somewhere in your `fpath` with the name `prompt_pure_setup`.
+   
+   As I mentioned, I have `~/.zfunctions` in my `fpath`, so I run
+
+   ```
+   ln -s ~/.zfunctions/pure/pure.zsh ~/.zfunctions/prompt_pure_setup
+   ```
+   
+   Which links from the `fpath` directory into the `pure.zsh` file in pure's repo.
+   
+3. Configure zsh to use the prompt.
+
+   ```zsh
+   # .zshrc
+   autoload -U promptinit && promptinit
+   prompt pure
+   ```
+
+[1]: http://www.refining-linux.org/archives/46/ZSH-Gem-12-Autoloading-functions/
+
+## Setting up your fpath
+
+If you're in zsh, you can see what's in your `$fpath`:
+
+```
+echo $fpath
 ```
 
-That's it. Skip to [Getting started](#getting-started).
+A good way to add things to your `$fpath` is to set them in your ~/.zshenv file. Open or create this file, then add the following:
 
-### Manually
-
-1. Either…
-  - Clone this repo
-  - add it as a submodule, or
-  - just download `pure.zsh`
-
-2. Symlink `pure.zsh` to somewhere in [`$fpath`]http://www.refining-linux.org/archives/46/ZSH-Gem-12-Autoloading-functions/) with the name `prompt_pure_setup`.
-
-#### Example
-
-```sh
-$ ln -s "$PWD/pure.zsh" /usr/local/share/zsh/site-functions/prompt_pure_setup
 ```
-*Run `echo $fpath` to see possible locations.*
-
-For a user-specific installation (which would not require escalated privileges), simply add a directory to `$fpath` for that user:
-
-```sh
-# .zshenv or .zshrc
 fpath=( "$HOME/.zfunctions" $fpath )
-```
-
-Then install the theme there:
-
-```sh
-$ ln -s "$PWD/pure.zsh" "$HOME/.zfunctions/prompt_pure_setup"
-```
-
-
-## Getting started
-
-Initialize the prompt system (if not so already) and choose `pure`:
-
-```sh
-# .zshrc
-autoload -U promptinit && promptinit
-prompt pure
 ```
 
 
@@ -96,20 +94,6 @@ Set `PROMPT_PURE_SKIP_DIRTY_CHECK` to skip the dirtyness check altogether.
 ### `PROMPT_PURE_DIR_COLOR`, `PROMPT_PURE_VCS_COLOR`, `PROMPT_PURE_EXEC_TIME_COLOR`, `PROMPT_PURE_SUCCESS_COLOR`,  and `PROMPT_PURE_FAILURE_COLOR`
 
 Use these options to control the colors of various parts of the prompt. They take arguments of the form `"%F{...}"` where `...` is some color string. Usage examples: `"%F{blue}"` (i.e., one of the 8 ANSI color names), or `"%F{242}"` (i.e., an xterm256 color code).
-
-
-## Example
-
-```sh
-# .zshrc
-
-autoload -U promptinit && promptinit
-
-# optionally define some options
-PURE_CMD_MAX_EXEC_TIME=10
-
-prompt pure
-```
 
 
 ## Tips
