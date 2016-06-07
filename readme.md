@@ -103,7 +103,7 @@ Use these options to control the colors of various parts of the prompt. They tak
 To have commands colorized as seen in the screenshot install [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting).
 
 
-## Integration
+## Integrations
 
 ### [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 
