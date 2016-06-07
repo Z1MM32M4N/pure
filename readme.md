@@ -24,7 +24,7 @@ Most prompts are cluttered, ugly and slow. I wanted something visually pleasing 
 
 ## Install
 
-Can be instaled through Git.
+Can be instaled through Git. You may also want to see [Integrations](#integrations).
 
 1. Clone this repo to your [`$fpath`][1]. Don't know what an `$fpath` is, or don't think you've set it up? Skip to [Setting up your fpath](#setting-up-your-fpath).
 
